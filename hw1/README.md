@@ -40,5 +40,5 @@ broadcast->B: (3, 4)
 
 总结：只要涉及到Tensoer计算，就会产生新的节点，新的节点通过`inputs`和`op`记录来自哪里以及是通过何种计算获得。反向传播时通过我们事先定义的每个运算符的偏导，人工地设计了对应的计算公式。`sum_node_list`把每一个路径的偏导求和得到节点最终偏导也会创建新的计算节点。
 
-![Computational Graph](/imgs/computational_graph.png)
+![Computational Graph](../imgs/computational_graph.png)
 
