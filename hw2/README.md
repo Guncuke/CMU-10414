@@ -132,3 +132,49 @@ $$
 - 正则化有两种方式：1. 直接加在损失函数里 2.优化器内weight decay
 
 在模型更新的时候，为了防止继续生成计算图，更新w的时候使用.data。
+
+计算softmax时，可以对每个输入减去max，防止上溢出。
+
+
+
+# HomeWork
+
+## 1. 初始化
+分别实现了`xavier_uniform`,`xavier_normal`和`kaiming_uniform`,`kaiming_normal`。
+
+`kaiming`初始化适用于`ReLU`激活的神经网络。
+
+## 2. Linear
+注意初始化时，使用`kaiming`初始化对应维度的输入。需要输入正确的维度，再转置回来。
+
+## 3. LogSumExp
+```python
+      z = node.inputs[0]
+      max_z = z.realize_cached_data().max(self.axes, keepdims=True)
+      exp_z = exp(z - max_z)
+      sum_exp_z = summation(exp_z, self.axes)
+      grad_sum_exp_z = out_grad / sum_exp_z
+      expand_shape = list(z.shape)
+      axes = range(len(expand_shape)) if self.axes is None else self.axes
+      for axis in axes:
+         expand_shape[axis] = 1
+      grad_exp_z = grad_sum_exp_z.reshape(expand_shape).broadcast_to(z.shape)
+      return grad_exp_z * exp_z
+```
+$$
+L = \alpha + \log\left(\sum_{i=1}^{n} e^{z_i - \alpha}\right)
+$$
+
+对 $z_k$ 求导：
+
+$$
+\frac{\partial L}{\partial z_k} = \frac{e^{z_k - \alpha}}{\sum_{j} e^{z_j - \alpha}}
+$$
+
+即
+
+$$
+\frac{\partial L}{\partial z_k} = \frac{e^{z_k}}{\sum_{j} e^{z_j}}
+$$
+
+我们可以按照上面一样，一项一项求，但是我们可以发现，我们计算得到node的数值，放在exp()内就是指数的求和。因此可以使用node的cache_value来简化代码。
