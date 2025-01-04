@@ -1,3 +1,5 @@
+# Homework 2
+
 # Q.1
 np的transpose需要所有维度的排序索引来重拍，因此直接调用transpose无法过测试。可以用swapaxe，也可以生成arrange列表后交换axes的两个下标。
 
