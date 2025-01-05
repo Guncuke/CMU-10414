@@ -136,6 +136,22 @@ $$
 计算softmax时，可以对每个输入减去max，防止上溢出。
 
 
+# Normalization
+- Layernorm:对每一个样本归一化（减去均值除以标准差）
+- Batchnrom:对一个批次中的样本每一个特征进行归一化。
+- Batchnorm的问题：一个样本会受到其他样本影响。改进方法：使用全部数据集的均值和方差。running average/variance。在运行过程中不断更新计算均值和方差。测试的时候使用整体的均值和方差归一化。
+
+
+# Regularization
+- implicit regularization:隐式正则化。现有的部分算法和架构有的可以防止过拟合（SGD）
+- Explicit regularization:显示正则化。在神经网络中加入一些特有的层，专门用于regular网络。
+
+1. L2正则化/weight decay
+在损失函数中加入正则化项，通过求导可以计算得到，结果就是在更新时，对原来的梯度乘以$(1-\alpha \times \lambda)$，所以一般都写在优化器的weight_dacay里。
+
+2. Dropout
+随机将一定比例的输出置零。
+
 
 # HomeWork
 
@@ -178,3 +194,21 @@ $$
 $$
 
 我们可以按照上面一样，一项一项求，但是我们可以发现，我们计算得到node的数值，放在exp()内就是指数的求和。因此可以使用node的cache_value来简化代码。
+
+## 4. LogSoftMax
+
+**LogSoftMax** 的梯度公式为：
+
+$$
+\frac{\partial L}{\partial z_k} = \frac{\partial L}{\partial \text{LogSoftMax}(z_k)} - \text{SoftMax}(z_k) \cdot \sum_{i=1}^{n} \frac{\partial L}{\partial \text{LogSoftMax}(z_i)}
+$$
+
+或者，使用向量化表示：
+
+$$
+\frac{\partial L}{\partial \mathbf{Z}} = \mathbf{g} - \mathbf{s} \cdot (\mathbf{g}^T \mathbf{1})
+$$
+
+## 5. Laynorm & BatchNorm
+
+BatchNorm时不需要reshape添加维度，因为broadcast会自动右端对齐，在前面广播。
