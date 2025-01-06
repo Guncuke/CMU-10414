@@ -221,3 +221,24 @@ weight decay是在梯度更新时，对原来的梯度乘以$(1-\alpha \times \l
 ## 7. Dataset & DataLoader
 
 需要reshape读入的数据，重写`__getitem__`和`__len__`即可。
+
+
+# Summary
+
+- 实现了Xavier和Kaiming初始化（uniform和normal）
+- 实现了LogSumExp和LogSoftMax运算符
+- Module基类可以获取参数列表，子模块列表，以及设置train和eval模式，通过__call__调用继承的子类的`forward`方法。
+- 实现了nn里的各个模块（继承自Module基类）
+- 实现了SoftMaxLoss模块（损失函数也是一个Module）
+- 实现了batchnorm和layernorm（维度区别/batchnorm running mean/variance）running mean/variance通过动量更新实现
+- 实现了各种模块（继承自Module）
+- 实现了SGD和Adam优化器
+- 优化器继承自Optimizer，包含需要优化的params，`step`更新params，`reset_grad`将grad重置。
+- 优化器内加入weight_dacay正则以及动量更新。
+- 实际实现是`grad = grad + weight_dacy * param`
+- 优化器更新梯度时直接替换param.data，防止引入额外计算图
+- 优化器构成：动量，二阶矩（Adam），unbias，weight_decay，学习率，除数加上epsilon。
+- 数据集包括Dataset基类和DataLoader基类。
+- Dataset子类需要重载`__getitem__`和`__len__`
+- DataLoader迭代输出Dataset内容。
+
