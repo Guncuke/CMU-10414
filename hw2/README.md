@@ -212,3 +212,12 @@ $$
 ## 5. Laynorm & BatchNorm
 
 BatchNorm时不需要reshape添加维度，因为broadcast会自动右端对齐，在前面广播。
+简而言之就是，如果需要往后填充维度，需要人为reshape，在后方添加维度1，然后再广播。如果需要往前填充，直接广播即可。
+
+## 6. Optimizer
+
+weight decay是在梯度更新时，对原来的梯度乘以$(1-\alpha \times \lambda)$
+
+## 7. Dataset & DataLoader
+
+需要reshape读入的数据，重写`__getitem__`和`__len__`即可。

@@ -183,7 +183,7 @@ class LayerNorm1d(Module):
         mean = (x.sum((1,)) / x.shape[1]).reshape((x.shape[0], 1)).broadcast_to(x.shape)
         std = (((x - mean) ** 2).sum((1,)) / x.shape[1]).reshape((x.shape[0], 1)).broadcast_to(x.shape)
         x_hat = (x - mean) / (std + self.eps)**0.5
-        out = x_hat * self.weight + self.bias
+        out = x_hat * self.weight.broadcast_to(x.shape) + self.bias.broadcast_to(x.shape)
         return out
         ### END YOUR SOLUTION
 
