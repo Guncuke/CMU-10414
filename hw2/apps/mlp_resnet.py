@@ -104,8 +104,8 @@ def train_mnist(
     train_dataloader = ndl.data.DataLoader(train_dataset, batch_size, shuffle=True)
     test_dataloader = ndl.data.DataLoader(test_dataset, batch_size, shuffle=False)
 
-    shape = test_dataloader.dataset.image.shape
-    dim = shape[1] * shape[2]
+    H, W, C = train_dataset[0][0].shape
+    dim = H * W * C
 
     model = MLPResNet(dim, hidden_dim, num_blocks=3, num_classes=10)
     opt = optimizer(model.parameters(), lr=lr, weight_decay=weight_decay)
