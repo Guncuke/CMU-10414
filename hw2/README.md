@@ -26,7 +26,7 @@ $$
 
 - $\theta_t$ 是当前参数
 - $\alpha$ 是学习率（step size）
-- $\beta$ 是动量系数（momentum averaging parameter），如常用值 \(0.9\)
+- $\beta$ 是动量系数（momentum averaging parameter），如常用值 $0.9$
 - $\nabla_\theta f(\theta_t)$ 是损失函数关于参数的梯度
 
 在算法初始化时，通常将动量项 $u_t$ 初始化为零向量，即：
@@ -73,7 +73,7 @@ $$
 $$
 
 #### 核心区别：
-- 在计算梯度时，不是使用当前位置 \( \theta_t \)，而是提前使用**预测位置** \( \theta_t - \alpha u_t \)。
+- 在计算梯度时，不是使用当前位置  $\theta_t$，而是提前使用**预测位置** $\theta_t - \alpha u_t$。
 - 这种前瞻性的计算可以更准确地反映下降方向，从而加速收敛。
 
 # Adam
@@ -110,15 +110,15 @@ $$
 
 ### **无偏校正（Bias Correction）**
 由于 $u_t$ 和 $v_t$ 在初始时被初始化为零，会导致前几次迭代产生偏差。为了解决这个问题，Adam 使用了无偏校正：
-
+动量校正
 $$
 \hat{u}_{t+1} = \frac{u_{t+1}}{1 - \beta_1^{t+1}}
 $$
-
+梯度方差校正
 $$
 \hat{v}_{t+1} = \frac{v_{t+1}}{1 - \beta_2^{t+1}}
 $$
-
+最终公式
 $$
 \theta_{t+1} = \theta_t - \alpha \frac{\hat{u}_{t+1}}{\sqrt{\hat{v}_{t+1}} + \epsilon}
 $$
