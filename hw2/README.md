@@ -112,14 +112,20 @@ $$
 ### **无偏校正（Bias Correction）**
 由于 $u_t$ 和 $v_t$ 在初始时被初始化为零，会导致前几次迭代产生偏差。为了解决这个问题，Adam 使用了无偏校正：
 
-动量校正:
-$$\hat{u}_{t+1} = \frac{u_{t+1}}{1 - \beta_1^{t+1}}$$
 
-梯度方差校正:
-$$\hat{v}_{t+1} = \frac{v_{t+1}}{1 - \beta_2^{t+1}}$$
+$$
+hat{u}_{t+1} = \frac{u_{t+1}}{1 - \beta_1^{t+1}}
+$$
 
-最终公式:
-$$\theta_{t+1} = \theta_t - \alpha \frac{\hat{u}_{t+1}}{\sqrt{\hat{v}_{t+1}} + \epsilon}$$
+
+$$
+\hat{v}_{t+1} = \frac{v_{t+1}}{1 - \beta_2^{t+1}}
+$$
+
+
+$$
+\theta_{t+1} = \theta_t - \alpha \frac{\hat{u}_{t+1}}{\sqrt{\hat{v}_{t+1}} + \epsilon}
+$$
 
 # Lecture 8
 

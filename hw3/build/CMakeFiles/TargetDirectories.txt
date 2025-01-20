@@ -1,0 +1,4 @@
+/home/user002/code/AI_fram/CMU-10414/hw3/build/CMakeFiles/ndarray_backend_cpu.dir
+/home/user002/code/AI_fram/CMU-10414/hw3/build/CMakeFiles/ndarray_backend_cuda.dir
+/home/user002/code/AI_fram/CMU-10414/hw3/build/CMakeFiles/edit_cache.dir
+/home/user002/code/AI_fram/CMU-10414/hw3/build/CMakeFiles/rebuild_cache.dir
