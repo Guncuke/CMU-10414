@@ -334,7 +334,13 @@ inline void AlignedDot(const float* __restrict__ a,
   out = (float*)__builtin_assume_aligned(out, TILE * ELEM_SIZE);
 
   /// BEGIN SOLUTION
-  assert(false && "Not Implemented");
+  for(size_t i=0; i<TILE; i++) {
+    for(size_t j=0; j<TILE; j++) {
+      for(size_t k=0; k<TILE; k++) {
+        out[i * TILE + j] += a[i * TILE + k] * b[k * TILE + j];
+      }
+    }
+  }
   /// END SOLUTION
 }
 
@@ -360,7 +366,22 @@ void MatmulTiled(const AlignedArray& a, const AlignedArray& b, AlignedArray* out
    *
    */
   /// BEGIN SOLUTION
-  assert(false && "Not Implemented");
+  Fill(out, 0);
+  size_t mt = m / TILE;
+  size_t nt = n / TILE;
+  size_t pt = p / TILE;
+
+  for (size_t i = 0; i < mt; i++) {
+    for (size_t j = 0; j < pt; j++) {
+      for (size_t k = 0; k < nt; k++) {
+        AlignedDot(
+          &a.ptr[(i * nt + k) * TILE * TILE],
+          &b.ptr[(k * pt + j) * TILE * TILE],
+          &out->ptr[(i * pt + j) * TILE * TILE]
+        );
+      }
+    }
+  }
   /// END SOLUTION
 }
 
